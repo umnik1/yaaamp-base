@@ -6,7 +6,7 @@ import { Hr, Node, Parent, LinkNode } from "../ContextMenu";
 import PlaybackContextMenu from "../PlaybackContextMenu";
 import OptionsContextMenu from "../OptionsContextMenu";
 import SkinsContextMenu from "../SkinsContextMenu";
-import { FilePicker, WindowId } from "../../types";
+import { FilePicker } from "../../types";
 import { useTypedSelector, useActionCreator } from "../../hooks";
 
 interface Props {
@@ -33,10 +33,10 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
       <LinkNode
         href="https://webamp.org/about"
         target="_blank"
-        label="Webamp..."
+        label="Yaamp..."
       />
       <Hr />
-      <Parent label="Play">
+      <Parent label="Плейлисты">
         <Node onClick={openMediaFileDialog} label="File..." hotkey="L" />
         {filePickers != null &&
           filePickers.map(
@@ -64,7 +64,7 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
           key={i}
           label={genWindows[i].title}
           checked={genWindows[i].open}
-          onClick={() => toggleWindow(i as WindowId)}
+          onClick={() => toggleWindow(i)}
           hotkey={genWindows[i].hotkey}
         />
       ))}

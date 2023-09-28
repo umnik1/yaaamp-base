@@ -47,7 +47,7 @@ function preRenderBg(
 function Visualizer({ analyser }: Props) {
   useLayoutEffect(() => {
     analyser.fftSize = 2048;
-  }, [analyser, analyser.fftSize]);
+  }, [analyser.fftSize]);
   const colors = useTypedSelector(Selectors.getSkinColors);
   const style = useTypedSelector(Selectors.getVisualizerStyle);
   const status = useTypedSelector(Selectors.getMediaStatus);
@@ -149,10 +149,6 @@ function Visualizer({ analyser }: Props) {
       }
     };
   }, [canvas, paintFrame]);
-
-  if (status === MEDIA_STATUS.STOPPED) {
-    return null;
-  }
 
   return (
     <canvas

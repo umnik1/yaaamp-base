@@ -1,9 +1,8 @@
 import * as React from "react";
-import { ReactNode } from "react";
 import ReactDOM from "react-dom";
 
 interface Props {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 const Desktop = React.memo(({ children }: Props) => {

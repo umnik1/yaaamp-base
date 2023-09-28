@@ -69,7 +69,6 @@ function FocusTarget({ onKeyDown, windowId, children }: Props) {
     <div
       ref={setRef}
       onMouseDown={focusHandler}
-      onTouchStart={focusHandler}
       onFocus={focusHandler}
       tabIndex={-1}
       style={{ height: "100%", width: "100%" }}

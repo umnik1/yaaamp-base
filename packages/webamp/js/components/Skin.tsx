@@ -59,8 +59,7 @@ const getCssRules = createSelector(
       const imageUrl =
         skinImages[imageName] || skinImages[FALLBACKS[imageName]];
       if (imageUrl) {
-        imageSelectors[imageName].forEach((_selector) => {
-          const selector = _selector; // .replace(":active", ".active");
+        imageSelectors[imageName].forEach((selector) => {
           cssRules.push(
             `${CSS_PREFIX} ${selector} {background-image: url(${imageUrl})}`
           );
@@ -94,16 +93,10 @@ const getCssRules = createSelector(
             case "cur":
               return `${selector} {cursor: url(${cursor.url}), auto}`;
             case "ani": {
-              try {
-                return convertAniBinaryToCSS(selector, cursor.aniData);
-              } catch (e) {
-                console.error(e);
-                return null;
-              }
+              return convertAniBinaryToCSS(selector, cursor.aniData);
             }
           }
-        })
-        .filter(Boolean);
+        });
       cssRules.push(...cursorRules);
     });
 
@@ -111,7 +104,7 @@ const getCssRules = createSelector(
       // This alternate number file requires that the minus sign be
       // formatted differently.
       cssRules.push(
-        `${CSS_PREFIX} .webamp-status #time #minus-sign { top: 0px; left: -1px; width: 9px; height: 13px; }`
+        `${CSS_PREFIX} .status #time #minus-sign { top: 0px; left: -1px; width: 9px; height: 13px; }`
       );
     }
 

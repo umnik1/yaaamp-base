@@ -9,6 +9,7 @@ import {
   WindowPositions as _WindowPositions,
   WebampWindow as _WebampWindow,
   WindowInfo as _WindowInfo,
+  WindowPosition as _WindowPosition,
 } from "./reducers/windows";
 import { EqualizerState } from "./reducers/equalizer";
 import { NetworkState } from "./reducers/network";
@@ -21,6 +22,7 @@ import { Store as ReduxStore } from "redux";
 // Avoid warnings from Webpack: https://github.com/webpack/webpack/issues/7378
 export type WebampWindow = _WebampWindow;
 export type WindowInfo = _WindowInfo;
+export type WindowPosition = _WindowPosition;
 export type WindowPositions = _WindowPositions;
 
 export interface Point {
@@ -147,7 +149,7 @@ export interface SkinGenExColors {
   listTextSelectedBackground: string;
 }
 
-export type WindowId = "main" | "playlist" | "equalizer" | "milkdrop";
+export type WindowId = string;
 
 // TODO: Fill these out once we actually use them.
 export type SkinData = {
@@ -358,7 +360,7 @@ export type Action =
     }
   | {
       type: "SET_DUMMY_VIZ_DATA";
-      data: DummyVizData;
+      data: null;
     }
   | {
       type: "SET_BAND_VALUE";
@@ -629,148 +631,6 @@ export interface LoadedURLTrack {
   };
 }
 
-export interface Options {
-  /**
-   * An object representing the initial skin to use.
-   *
-   * If omitted, the default skin, included in the bundle, will be used.
-   * Note: This URL must be served the with correct CORs headers.
-   *
-   * Example: `{ url: './path/to/skin.wsz' }`
-   */
-  initialSkin?: {
-    url: string;
-  };
-
-  /**
-   * An array of `Track`s to prepopulate the playlist with.
-   */
-  initialTracks?: Track[];
-
-  /**
-   * An array of objects representing available skins.
-   *
-   * These will appear in the "Options" menu under "Skins".
-   * Note: These URLs must be served with the correct CORs headers.
-   *
-   * Example: `[ { url: "./green.wsz", name: "Green Dimension V2" } ]`
-   */
-  availableSkins?: { url: string; name: string }[];
-
-  windowLayout?: WindowLayout;
-
-  /**
-   * Controls if "double size mode", where the fixed sized windows are rendered
-   * at 2x, should be enabled
-   *
-   * Default: `false`
-   */
-  enableDoubleSizeMode?: boolean;
-
-  /**
-   * Should global hotkeys be enabled?
-   *
-   * Default: `false`
-   */
-  enableHotkeys?: boolean;
-
-  /**
-   * An array of additional file pickers.
-   *
-   * These will appear in the "Options" menu under "Play".
-   *
-   * For example, this option can be used to provide a "Dropbox" file picker.
-   */
-  filePickers?: [
-    {
-      /**
-       * The name that will appear in the context menu.
-       *
-       * Example: `"My File Picker..."`
-       */
-      contextMenuName: string;
-
-      /**
-       * A function which returns a Promise that resolves to an array of `Track`s
-       *
-       * Example: `() => Promise.resolve([{ url: './rick_roll.mp3' }])`
-       */
-      filePicker: () => Promise<Track[]>;
-
-      /**
-       * Indicates if this options should be made available when the user is offline.
-       */
-      requiresNetwork: boolean;
-    }
-  ];
-  zIndex?: number;
-  handleTrackDropEvent?: (
-    e: React.DragEvent<HTMLDivElement>
-  ) => Track[] | null | Promise<Track[] | null>;
-  handleAddUrlEvent?: () => Track[] | null | Promise<Track[] | null>;
-  handleLoadListEvent?: () => Track[] | null | Promise<Track[] | null>;
-  handleSaveListEvent?: (tracks: Track[]) => null | Promise<null>;
-}
-
-/**
- * Specifies the initial position and size of a the Winamp windows.
- *
- * Positions are specified in pixels from the top left corner of an imaginary
- * box. On initial render, the collection of visible windows will be centered
- * within the HTML element passed to `Webamp.renderWhenReady(element)`. In other
- * words, the positions given here will determine the _relative_ position of the
- * windows. The absolute position will be determined by the HTML element in
- * which Webamp is centered.
- *
- * Enabling "shade mode" for a window that supports it, will cause it to be
- * rendered minimized. Be default windows are not in shade mode.
- *
- * Windows which support resizing can have their size specified. If omitted,
- * they default to their small base size.
- *
- * Windows that are omitted will start closed. Enabling "closed" for a window
- * that supports it, will cause it to start closed.
- */
-export type WindowLayout = {
-  main?: {
-    position: WindowPosition;
-    shadeMode?: boolean;
-    closed?: boolean;
-  };
-  equalizer?: {
-    position: WindowPosition;
-    shadeMode?: boolean;
-    closed?: boolean;
-  };
-  playlist?: {
-    position: WindowPosition;
-    shadeMode?: boolean;
-    size?: WindowSize | null;
-    closed?: boolean;
-  };
-  milkdrop?: {
-    position: WindowPosition;
-    size?: WindowSize | null;
-    closed?: boolean;
-  };
-};
-
-export type WindowPosition = { top: number; left: number };
-
-/**
- * Resizable windows in Winamp have a base size and can be expanded in
- * increments based on the size of the skin sprite.
- *
- * To specify a window being larger than its base size, use `extraHeight` to
- * specify how many sprite increments to expand the window's height by, and
- * `extraWidth` to specify how many sprite increments to expand the window's
- * width by.
- */
-export type WindowSize = {
-  extraHeight: number;
-  extraWidth: number;
-};
-
 /**
  * Many methods on the webamp instance deal with track.
  *
@@ -805,8 +665,6 @@ export interface AppState {
   tracks: TracksState;
   milkdrop: MilkdropState;
 }
-
-export type PartialState = any;
 
 /**
  * Type definition of the music-metadata-browser module.
@@ -847,7 +705,7 @@ export interface IMusicMetadataBrowserApi {
 }
 
 export interface Extras {
-  requireJSZip(): Promise<any>;
+  requireJSZip(): Promise<never>;
   requireMusicMetadata(): Promise<IMusicMetadataBrowserApi>;
   convertPreset: ((file: File) => Promise<Object>) | null;
   handleTrackDropEvent?: (
@@ -874,6 +732,7 @@ export interface Store extends ReduxStore {
   subscribe(cb: () => void): () => void;
   dispatch: Dispatch;
   getState: GetState;
+  replaceReducer(reducer: Reducer): void;
 }
 
 export interface MiddlewareStore {

@@ -51,11 +51,12 @@ export function useScreenSize() {
 
 export function useWindowSize() {
   const [size, setSize] = useState<Size>(Utils.getWindowSize());
-  const handler = useCallback(() => {
+  const handler = useCallback(
     Utils.throttle(() => {
       setSize(Utils.getWindowSize());
-    }, 100) as () => void;
-  }, []);
+    }, 100) as () => void,
+    []
+  );
   useEffect(() => {
     window.addEventListener("resize", handler);
     return () => {
@@ -160,16 +161,13 @@ export function useTypedSelector<T>(selector: (state: AppState) => T): T {
 export function useActionCreator<T extends (...args: any[]) => Action | Thunk>(
   actionCreator: T
 ): (...funcArgs: Parameters<T>) => void {
-  const dispatch = useTypedDispatch();
-  return useCallback(
-    (...args) => dispatch(actionCreator(...args)),
-    [dispatch, actionCreator]
-  );
+  const dispatch = useDispatch();
+  return useCallback((...args) => dispatch(actionCreator(...args)), [
+    dispatch,
+    actionCreator,
+  ]);
 }
 
 export function useTypedDispatch(): (action: Action | Thunk) => void {
-  // useDispatch does not know about thunks. In theory this should be solvable, but I haven't bothered to figure it out:
-  // https://redux.js.org/usage/usage-with-typescript#type-checking-redux-thunks
-  // @ts-ignore
   return useDispatch();
 }

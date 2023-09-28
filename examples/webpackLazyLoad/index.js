@@ -1,4 +1,4 @@
-import Webamp from "webamp";
+import Webamp from "webamp"; // eslint-disable-line import/no-unresolved
 
 new Webamp({
   initialTracks: [
@@ -7,10 +7,8 @@ new Webamp({
         artist: "DJ Mike Llama",
         title: "Llama Whippin' Intro",
       },
-      // NOTE: Your audio file must be served from the same domain as your HTML
-      // file, or served with permissive CORS HTTP headers:
-      // https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-      url: "https://cdn.jsdelivr.net/gh/captbaritone/webamp@43434d82cfe0e37286dbbe0666072dc3190a83bc/mp3/llama-2.91.mp3",
+      url:
+        "https://cdn.jsdelivr.net/gh/captbaritone/webamp@43434d82cfe0e37286dbbe0666072dc3190a83bc/mp3/llama-2.91.mp3",
       duration: 5.322286,
     },
   ],
@@ -22,9 +20,6 @@ new Webamp({
     getPresets: async () => {
       // Load presets from preset URL mapping on demand as they are used
       const resp = await fetch(
-        // NOTE: Your preset file must be served from the same domain as your HTML
-        // file, or served with permissive CORS HTTP headers:
-        // https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
         "https://unpkg.com/butterchurn-presets-weekly@0.0.2/weeks/week1/presets.json"
       );
       const namesToPresetUrls = await resp.json();

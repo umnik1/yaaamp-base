@@ -1,5 +1,3 @@
-// See jest.integration.js for the config for this test file.
-
 /* global page */
 const { toMatchImageSnapshot } = require("jest-image-snapshot");
 const path = require("path");
@@ -20,9 +18,6 @@ beforeEach(async () => page.goto(`http://example.com`));
 
 test("should render the default skin", async () => {
   await page.goto(`${DOMAIN}/#{"disableMarquee":true}`);
-  await page.evaluate(
-    () => document.getElementsByClassName("loaded-icon").length > 0
-  );
   expect(await page.screenshot()).toMatchImageSnapshot(snapshotOptions);
 });
 
@@ -31,34 +26,10 @@ test("can 'pose' for a screenshot", async () => {
   expect(await page.screenshot()).toMatchImageSnapshot(snapshotOptions);
 });
 
-// *************** IMPORTANT ***************
-// If this test starts to fail, check that the cache-bust location of the skin has not changed.
-test.skip("can load a skin via the query params", async () => {
+test("can load a skin via the query params", async () => {
   await page.goto(
-    `${DOMAIN}/?skinUrl=/MacOSXAqua1-5.698dd4ab.wsz#{"disableMarquee":true}`
-  );
-  await page.evaluate(
-    () => document.getElementsByClassName("loaded-icon").length > 0
-  );
-  await page.evaluate(() => window.__webamp.skinIsLoaded());
-  expect(await page.screenshot()).toMatchImageSnapshot(snapshotOptions);
-});
-
-test("can set a background color via the query params", async () => {
-  await page.goto(`${DOMAIN}/?bg=%23ff0000#{"disableMarquee":true}`);
-  await page.evaluate(
-    () => document.getElementsByClassName("loaded-icon").length > 0
-  );
-  await page.evaluate(() => window.__webamp.skinIsLoaded());
-  expect(await page.screenshot()).toMatchImageSnapshot(snapshotOptions);
-});
-
-// This seems to fail hard for some other reason. Disable for now.
-test.skip("can set soundcloud playlist via the query params", async () => {
-  // If this test starts to fail, it might be flakyiness coming from the SoundCloud API, or that Poolside FM has changed their playlist.
-  await page.goto(`${DOMAIN}/?scPlaylist=1040356177#{"disableMarquee":true}`);
-  await page.evaluate(
-    () => document.getElementsByClassName("loaded-icon").length > 0
+    // If this test starts to fail, check that the cache-bust location of the skin has not changed.
+    `${DOMAIN}/?skinUrl=/skins/MacOSXAqua1-5-88dbd4e043795c98625462a908a2d965.wsz#{"disableMarquee":true}`
   );
   await page.evaluate(() => window.__webamp.skinIsLoaded());
   expect(await page.screenshot()).toMatchImageSnapshot(snapshotOptions);
@@ -70,9 +41,6 @@ test("should render the Topaz skin", async () => {
     "#webamp-file-input",
     path.join(__dirname, "../../demo/skins/TopazAmp1-2.wsz")
   );
-  await page.evaluate(
-    () => document.getElementsByClassName("loaded-icon").length > 0
-  );
   await page.evaluate(() => window.__webamp.skinIsLoaded());
   expect(await page.screenshot()).toMatchImageSnapshot(snapshotOptions);
 });
@@ -82,9 +50,6 @@ test("should render a skin that defines transparent regions", async () => {
   await expect(page).toUploadFile(
     "#webamp-file-input",
     path.join(__dirname, "../../demo/skins/Green-Dimension-V2.wsz")
-  );
-  await page.evaluate(
-    () => document.getElementsByClassName("loaded-icon").length > 0
   );
   await page.evaluate(() => window.__webamp.skinIsLoaded());
   expect(await page.screenshot()).toMatchImageSnapshot(snapshotOptions);
@@ -96,9 +61,6 @@ test("should render a skin that has files that only differ by case: main.bmp and
     "#webamp-file-input",
     path.join(__dirname, "../../demo/skins/My_Funny_Valentine.wsz")
   );
-  await page.evaluate(
-    () => document.getElementsByClassName("loaded-icon").length > 0
-  );
   await page.evaluate(() => window.__webamp.skinIsLoaded());
   expect(await page.screenshot()).toMatchImageSnapshot(snapshotOptions);
 });
@@ -108,9 +70,6 @@ test("uses the volume spirtes as a fallback when balance spirtes are missing", a
   await expect(page).toUploadFile(
     "#webamp-file-input",
     path.join(__dirname, "../../demo/skins/AmigaPPC-dark.wsz")
-  );
-  await page.evaluate(
-    () => document.getElementsByClassName("loaded-icon").length > 0
   );
   await page.evaluate(() => window.__webamp.skinIsLoaded());
   expect(await page.screenshot()).toMatchImageSnapshot(snapshotOptions);
@@ -123,9 +82,6 @@ test("pads empty space in the marquee with the space character", async () => {
     "#webamp-file-input",
     path.join(__dirname, "../../demo/skins/Sonic_Attitude.wsz")
   );
-  await page.evaluate(
-    () => document.getElementsByClassName("loaded-icon").length > 0
-  );
   await page.evaluate(() => window.__webamp.skinIsLoaded());
   await page.evaluate(() =>
     window.__webamp.store.dispatch({ type: "SET_FOCUS", input: "balance" })
@@ -133,25 +89,9 @@ test("pads empty space in the marquee with the space character", async () => {
   expect(await page.screenshot()).toMatchImageSnapshot(snapshotOptions);
 });
 
-test("can render skins that have forward slash in filename", async () => {
-  await page.goto(`${DOMAIN}/#{"disableMarquee":true}`);
-  await expect(page).toUploadFile(
-    "#webamp-file-input",
-    path.join(__dirname, "../../demo/skins/rei_1.wsz")
-  );
-  await page.evaluate(
-    () => document.getElementsByClassName("loaded-icon").length > 0
-  );
-  await page.evaluate(() => window.__webamp.skinIsLoaded());
-  expect(await page.screenshot()).toMatchImageSnapshot(snapshotOptions);
-});
-
 test("closing winamp shows the icon", async () => {
   await page.goto(`${DOMAIN}/#{"disableMarquee":true}`);
   await page.evaluate(() => window.__webamp.skinIsLoaded());
-  await page.evaluate(
-    () => document.getElementsByClassName("loaded-icon").length > 0
-  );
   await page.evaluate(() =>
     window.__webamp.store.dispatch({ type: "CLOSE_WINAMP" })
   );

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import classnames from "classnames";
 
 import { BANDS, WINDOWS } from "../../constants";
@@ -12,6 +11,7 @@ import EqGraph from "./EqGraph";
 import PresetsContextMenu from "./PresetsContextMenu";
 import EqualizerShade from "./EqualizerShade";
 
+import "../../../css/equalizer-window.css";
 import { Band as BandType } from "../../types";
 import FocusTarget from "../FocusTarget";
 import { useTypedSelector, useActionCreator } from "../../hooks";
@@ -43,33 +43,6 @@ const EqualizerWindow = () => {
     window: true,
     draggable: true,
   });
-
-  // Track whether the click originated in the "hertz" area of the EQ
-  // We only want to allow drag across the EQ when the click originated in that area
-  const [clickOriginatedInEq, setClickOriginatedInEq] = useState(false);
-
-  const onPointerDownHz = (e: React.PointerEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-    // Release the pointer capture
-    // https://w3c.github.io/pointerevents/#implicit-pointer-capture
-    // https://w3c.github.io/pointerevents/#pointer-capture
-    const target = e.target as HTMLDivElement;
-    target.releasePointerCapture(e.pointerId);
-
-    setClickOriginatedInEq(true);
-
-    function onReleaseHz(ee: PointerEvent) {
-      // Release only if it is the actual pointer release, not the simulated one coming from WinampButton
-      // Simulated pointer release coming from WinampButton has ee.detail == -42
-      // Actual pointer release here will come in as ee.detail === 0
-      if (ee.detail === 0) {
-        setClickOriginatedInEq(false);
-        document.removeEventListener("pointerup", onReleaseHz);
-      }
-    }
-    document.addEventListener("pointerup", onReleaseHz);
-  };
-
   return (
     <div id="equalizer-window" className={className}>
       <FocusTarget windowId={WINDOWS.EQUALIZER}>
@@ -91,17 +64,14 @@ const EqualizerWindow = () => {
             <div id="plus12db" onClick={setEqToMax} />
             <div id="zerodb" onClick={setEqToMid} />
             <div id="minus12db" onClick={setEqToMin} />
-            <div onPointerDown={onPointerDownHz}>
-              {BANDS.map((hertz) => (
-                <Band
-                  key={hertz}
-                  id={bandClassName(hertz)}
-                  band={hertz}
-                  onChange={(value) => setHertzValue(hertz, value)}
-                  clickOriginatedInEq={clickOriginatedInEq}
-                />
-              ))}
-            </div>
+            {BANDS.map((hertz) => (
+              <Band
+                key={hertz}
+                id={bandClassName(hertz)}
+                band={hertz}
+                onChange={(value) => setHertzValue(hertz, value)}
+              />
+            ))}
           </div>
         )}
       </FocusTarget>

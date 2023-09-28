@@ -1,9 +1,3 @@
-# Webamp Press
-
-This page lists various places where the Webamp project has been mentioned or discussed.
-
-For press mentions of the [Winamp Skin Museum](https://skins.webamp.org), see the [Winamp Skin Museum Press Page](./skin-museuem-press.md).
-
 ## Articles (notable)
 
 - [Gizmodo](https://gizmodo.com/winamp-2-has-been-immortalized-in-html5-for-your-pleasu-1655373653)
@@ -29,7 +23,6 @@ For press mentions of the [Winamp Skin Museum](https://skins.webamp.org), see th
 ## News Aggregators
 
 - [/r/InternetIsBeautiful](https://www.reddit.com/r/InternetIsBeautiful/comments/2lh3ob/winamp_2_preserved_in_html5/)
-- [Hacker News](https://news.ycombinator.com/item?id=26811696) (Apr. 2021)
 - [Hacker News](https://news.ycombinator.com/item?id=17583997) (Jul. 2018)
 - [Hacker News](https://news.ycombinator.com/item?id=16333550) (Feb. 2018)
 - [Hacker News](https://news.ycombinator.com/item?id=15314629) (Sept. 2017)
@@ -64,7 +57,6 @@ For press mentions of the [Winamp Skin Museum](https://skins.webamp.org), see th
 - [Scott Hanselman](https://twitter.com/shanselman/status/966129035649564677)
 - [Jake Rodkin](https://twitter.com/ja2ke/status/961279058507063296)
 - [Changelog](https://twitter.com/changelog/status/911957655392006145)
-- [GitHub](https://twitter.com/github/status/1428447452491927560)
 
 ## Articles (continued)
 
@@ -237,8 +229,7 @@ For press mentions of the [Winamp Skin Museum](https://skins.webamp.org), see th
 ### Japanese
 
 - http://jp.techcrunch.com/2018/02/10/2018-02-09-whip-the-llamas-ass-with-this-javascript-winamp-emulator/
-- [GigaZine](https://gigazine.net/news/20180213-winamp2-js/) (Feb. 2018)
-- [GigaZine](https://gigazine.net/news/20210415-webamp/) (Apr. 2021)
+- https://gigazine.net/news/20180213-winamp2-js/
 - https://www.gizmodo.jp/2014/11/90winamp_2html5.html
 - https://www.softantenna.com/wp/review/winamp2-js/
 - http://mantiddesign.com/archives/15468
@@ -252,7 +243,6 @@ For press mentions of the [Winamp Skin Museum](https://skins.webamp.org), see th
 - https://pplware.sapo.pt/software/chegou-winamp-funciona-um-browser/
 - https://www.techtudo.com.br/noticias/2018/03/oito-curiosidades-sobre-o-winamp-player-que-era-sucesso-nos-anos-2000.ghtml (mention)
 - https://tecnoblog.net/234125/winamp-versao-web-navegador/
-- [tek.sapo.pt](https://tek.sapo.pt/extras/site-do-dia/artigos/webamp-da-vida-ao-classico-leitor-de-audio-winamp-diretamente-do-browser-de-internet) (Arp. 2021)
 
 ### Swedish
 

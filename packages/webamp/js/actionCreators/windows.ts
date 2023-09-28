@@ -8,6 +8,7 @@ import {
   TOGGLE_WINDOW,
   CLOSE_WINDOW,
   TOGGLE_WINDOW_SHADE_MODE,
+  SET_WINDOW_VISIBILITY,
   BROWSER_WINDOW_SIZE_CHANGED,
   RESET_WINDOW_SIZES,
   TOGGLE_LLAMA_MODE,
@@ -16,20 +17,13 @@ import {
 
 import { getPositionDiff, SizeDiff } from "../resizeUtils";
 import { applyDiff } from "../snapUtils";
-import {
-  Action,
-  Thunk,
-  WindowId,
-  WindowPositions,
-  Dispatch,
-  WindowLayout,
-} from "../types";
+import { Action, Thunk, WindowId, WindowPositions, Dispatch } from "../types";
 
 // Dispatch an action and, if needed rearrange the windows to preserve
 // the existing edge relationship.
 //
 // Works by checking the edges before the action is dispatched. Then,
-// after dispatching, calculating what position change would be required
+// after disatching, calculating what position change would be required
 // to restore those relationships.
 function withWindowGraphIntegrity(action: Action): Thunk {
   return (dispatch, getState) => {
@@ -94,6 +88,14 @@ export function closeWindow(windowId: WindowId): Action {
   return { type: CLOSE_WINDOW, windowId };
 }
 
+export function hideWindow(windowId: WindowId): Action {
+  return { type: SET_WINDOW_VISIBILITY, windowId, hidden: true };
+}
+
+export function showWindow(windowId: WindowId): Action {
+  return { type: SET_WINDOW_VISIBILITY, windowId, hidden: false };
+}
+
 export function setFocusedWindow(window: WindowId | null): Action {
   return { type: SET_FOCUSED_WINDOW, window };
 }
@@ -151,7 +153,7 @@ export function centerWindows(box: {
     const offsetLeft = left + window.scrollX;
     const offsetTop = top + window.scrollY;
 
-    // A layout has been supplied. We will compute the bounding box and
+    // A layout has been suplied. We will compute the bounding box and
     // center the given layout.
     const bounding = Utils.calculateBoundingBox(
       windowsInfo.filter((w) => getOpen(w.key))
@@ -200,50 +202,6 @@ export function stackWindows(): Thunk {
   return (dispatch, getState) => {
     dispatch(
       updateWindowPositions(Selectors.getStackedLayoutPositions(getState()))
-    );
-  };
-}
-
-export function setWindowLayout(layout?: WindowLayout): Thunk {
-  return (dispatch) => {
-    if (layout == null) {
-      dispatch(stackWindows());
-      return;
-    }
-    for (const id of ["playlist", "milkdrop"] as const) {
-      const w = layout[id];
-      if (w != null && w.size != null) {
-        const { extraHeight: plusHeight, extraWidth: plusWidth } = w.size;
-        dispatch(setWindowSize(id, [plusWidth, plusHeight]));
-      }
-    }
-    for (const id of ["main", "playlist", "equalizer", "milkdrop"] as const) {
-      const w = layout[id];
-      if (w == null || w.closed) {
-        dispatch(closeWindow(id));
-      }
-    }
-    for (const id of ["main", "playlist", "equalizer"] as const) {
-      if (layout[id]?.shadeMode) {
-        dispatch({
-          type: TOGGLE_WINDOW_SHADE_MODE,
-          windowId: id,
-        });
-      }
-    }
-    dispatch(
-      updateWindowPositions(
-        Utils.objectMap(layout, (w) => {
-          // For some reason TypeScript cli thinks this
-          // is nullable, but in VSCode it does not...
-          if (w == null) throw new Error("w is null");
-          return {
-            x: w.position.left,
-            y: w.position.top,
-          };
-        }),
-        false
-      )
     );
   };
 }

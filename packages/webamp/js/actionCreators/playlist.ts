@@ -91,7 +91,9 @@ export function scrollNTracks(n: number): Thunk {
   };
 }
 
-export function scrollPlaylistByDelta(e: WheelEvent): Thunk {
+export function scrollPlaylistByDelta(
+  e: React.WheelEvent<HTMLDivElement>
+): Thunk {
   e.preventDefault();
   return (dispatch, getState) => {
     const state = getState();

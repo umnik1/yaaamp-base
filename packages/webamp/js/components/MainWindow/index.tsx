@@ -30,6 +30,7 @@ import Time from "./Time";
 import MainVolume from "./MainVolume";
 import * as Selectors from "../../selectors";
 
+import "../../../css/main-window.css";
 import { FilePicker } from "../../types";
 import FocusTarget from "../FocusTarget";
 import { useActionCreator, useTypedSelector } from "../../hooks";
@@ -97,7 +98,7 @@ const MainWindow = React.memo(({ analyser, filePickers }: Props) => {
           <Shade />
           <Close />
         </div>
-        <div className="webamp-status">
+        <div className="status">
           <ClutterBar />
           {!working && <div id="play-pause" />}
           <div

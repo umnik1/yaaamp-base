@@ -5,10 +5,6 @@ body {
   font-size: 15px;
 }
 
-::selection {
-  background: none;
-}
-
 #browser-compatibility {
   display: none;
   position: absolute;
@@ -179,8 +175,4 @@ body {
 .desktop-icon.selected .desktop-icon-title {
   background-color: #000080;
   border-color: white;
-}
-
-.desktop-icon.selected img {
-  filter: brightness(0.35) sepia(100%) hue-rotate(148deg) saturate(10);
 }

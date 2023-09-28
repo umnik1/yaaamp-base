@@ -96,7 +96,7 @@
   height: 9px;
   width: 3px;
 }
-#webamp .webamp-status #time {
+#webamp .status #time {
   position: absolute;
   left: 39px;
   top: 26px;
@@ -105,15 +105,15 @@
   width: 59px;
 }
 
-#webamp .stop .webamp-status #time {
+#webamp .stop .status #time {
   display: none;
 }
-#webamp .pause .webamp-status #time {
+#webamp .pause .status #time {
   animation: blink 2s step-start 1s infinite;
   -webkit-animation: blink 2s step-start 1s infinite;
 }
 
-#webamp .webamp-status #time #minus-sign {
+#webamp .status #time #minus-sign {
   /* Note that this get's augmented by the skin CSS if NUM_EX.BMP is present */
   position: absolute;
   top: 6px;
@@ -122,28 +122,28 @@
   height: 1px;
 }
 
-#webamp .webamp-status #time #minute-first-digit {
+#webamp .status #time #minute-first-digit {
   position: absolute;
   pointer-events: none;
   left: 9px;
   height: 13px;
   width: 9px;
 }
-#webamp .webamp-status #time #minute-second-digit {
+#webamp .status #time #minute-second-digit {
   position: absolute;
   pointer-events: none;
   left: 21px;
   height: 13px;
   width: 9px;
 }
-#webamp .webamp-status #time #second-first-digit {
+#webamp .status #time #second-first-digit {
   position: absolute;
   pointer-events: none;
   left: 39px;
   height: 13px;
   width: 9px;
 }
-#webamp .webamp-status #time #second-second-digit {
+#webamp .status #time #second-second-digit {
   position: absolute;
   pointer-events: none;
   left: 51px;
@@ -162,6 +162,10 @@
   left: 79px;
 }
 
+#webamp #main-window.stop #visualizer {
+  display: none;
+}
+
 #webamp .text {
   display: none;
 }
@@ -170,7 +174,7 @@
   position: absolute;
   left: 111px;
   top: 24px;
-  width: 154px;
+  width: 155px;
   height: 6px;
   overflow: hidden;
   display: block;
@@ -418,7 +422,7 @@
 #webamp .shade #volume,
 #webamp .shade #balance,
 #webamp .shade .shuffle-repeat,
-#webamp .shade .webamp-status {
+#webamp .shade .status {
   display: none;
 }
 #webamp .shade #title-bar {
@@ -428,7 +432,7 @@
   position: absolute;
 }
 #webamp .shade .actions #previous,
-#webamp .shade .actions #previous.winamp-active {
+#webamp .shade .actions #previous:active {
   background: none;
   height: 10px;
   width: 7px;
@@ -436,7 +440,7 @@
   left: 169px;
 }
 #webamp .shade .actions #play,
-#webamp .shade .actions #play.winamp-active {
+#webamp .shade .actions #play:active {
   background: none;
   height: 10px;
   width: 10px;
@@ -444,7 +448,7 @@
   left: 176px;
 }
 #webamp .shade .actions #pause,
-#webamp .shade .actions #pause.winamp-active {
+#webamp .shade .actions #pause:active {
   background: none;
   height: 10px;
   width: 9px;
@@ -452,7 +456,7 @@
   left: 186px;
 }
 #webamp .shade .actions #stop,
-#webamp .shade .actions #stop.winamp-active {
+#webamp .shade .actions #stop:active {
   background: none;
   height: 10px;
   width: 9px;
@@ -460,7 +464,7 @@
   left: 195px;
 }
 #webamp .shade .actions #next,
-#webamp .shade .actions #next.winamp-active {
+#webamp .shade .actions #next:active {
   background: none;
   height: 10px;
   width: 10px;
@@ -468,7 +472,7 @@
   left: 204px;
 }
 #webamp .shade #eject,
-#webamp .shade #eject.winamp-active {
+#webamp .shade #eject:active {
   height: 10px;
   width: 10px;
   top: 2px;

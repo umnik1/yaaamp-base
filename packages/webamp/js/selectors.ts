@@ -203,9 +203,7 @@ export const getNextTrackId = (state: AppState, n = 1) => {
   return trackOrder[nextIndex];
 };
 
-export const getGenWindows = (
-  state: AppState
-): { [name: string]: WebampWindow } => {
+export const getGenWindows = (state: AppState) => {
   return state.windows.genWindows;
 };
 
@@ -213,14 +211,9 @@ export const getWindowOpen = createSelector(getGenWindows, (genWindows) => {
   return (windowId: WindowId) => genWindows[windowId].open;
 });
 
-export const getWindowHidden = createSelector(
-  getMilkdropWindowEnabled,
-  (milkdropWindowEnabled) => {
-    return (windowId: WindowId) => {
-      return windowId === WINDOWS.MILKDROP && !milkdropWindowEnabled;
-    };
-  }
-);
+export const getWindowHidden = createSelector(getGenWindows, (genWindows) => {
+  return (windowId: WindowId) => genWindows[windowId].hidden;
+});
 
 export const getWindowShade = createSelector(getGenWindows, (genWindows) => {
   return (windowId: WindowId) => genWindows[windowId].shade;
@@ -332,7 +325,7 @@ export const getCurrentTrackDisplayName = createSelector(
   }
 );
 
-export const getMediaStatus = (state: AppState): MediaStatus => {
+export const getMediaStatus = (state: AppState): MediaStatus | null => {
   return state.media.status;
 };
 
@@ -569,10 +562,9 @@ export function getEqualizerAuto(state: AppState): boolean {
   return state.equalizer.auto;
 }
 
-export function getBrowserWindowSize(state: AppState): {
-  height: number;
-  width: number;
-} {
+export function getBrowserWindowSize(
+  state: AppState
+): { height: number; width: number } {
   return state.windows.browserWindowSize;
 }
 
@@ -658,12 +650,21 @@ export const getKhz = createSelector(
   }
 );
 
-export function getMilkdropMessage(state: AppState): MilkdropMessage | null {
-  return state.milkdrop.message;
+export function getDebugData(state: AppState) {
+  return {
+    ...state,
+    display: {
+      ...state.display,
+      skinGenLetterWidths: "[[REDACTED]]",
+      skinImages: "[[REDACTED]]",
+      skinCursors: "[[REDACTED]]",
+      skinRegion: "[[REDACTED]]",
+    },
+  };
 }
 
-export function getMilkdropWindowEnabled(state: AppState): boolean {
-  return state.milkdrop.display === "WINDOW";
+export function getMilkdropMessage(state: AppState): MilkdropMessage | null {
+  return state.milkdrop.message;
 }
 
 export function getMilkdropDesktopEnabled(state: AppState): boolean {

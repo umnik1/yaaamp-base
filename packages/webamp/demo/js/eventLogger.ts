@@ -1,16 +1,26 @@
 import { log, GoogleAnalyticsEvent } from "./logger";
-import { Action } from "./Webamp";
+import * as Selectors from "../../js/selectors";
+import { Action, Store } from "../../js/types";
 
-function logEventFromAction(action: Action): GoogleAnalyticsEvent | null {
+function logEventFromAction(
+  action: Action,
+  store: Store
+): GoogleAnalyticsEvent | null {
   switch (action.type) {
     case "IS_PLAYING": {
-      return { category: "Media", action: "IsPlaying" };
+      const label =
+        Selectors.getCurrentTrackDisplayName(store.getState()) ?? "[UNKNOWN]";
+      return { category: "Media", action: "IsPlaying", label };
     }
     case "PAUSE": {
-      return { category: "Media", action: "Pause" };
+      const label =
+        Selectors.getCurrentTrackDisplayName(store.getState()) ?? "[UNKNOWN]";
+      return { category: "Media", action: "Pause", label };
     }
     case "STOP": {
-      return { category: "Media", action: "Stop" };
+      const label =
+        Selectors.getCurrentTrackDisplayName(store.getState()) ?? "[UNKNOWN]";
+      return { category: "Media", action: "Stop", label };
     }
     case "TOGGLE_REPEAT":
       return { category: "Media", action: "ToggleRepeat" };
@@ -107,11 +117,12 @@ function logEventFromAction(action: Action): GoogleAnalyticsEvent | null {
   return null;
 }
 
-export const loggerMiddleware =
-  () => (next: (action: Action) => void) => (action: Action) => {
-    const event = logEventFromAction(action);
-    if (event != null) {
-      log(event);
-    }
-    return next(action);
-  };
+export const loggerMiddleware = (store: Store) => (
+  next: (action: Action) => void
+) => (action: Action) => {
+  const event = logEventFromAction(action, store);
+  if (event != null) {
+    log(event);
+  }
+  return next(action);
+};

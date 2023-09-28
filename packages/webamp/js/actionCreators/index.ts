@@ -19,13 +19,20 @@ import { WINDOWS } from "../constants";
 import { Thunk, Action, Slider } from "../types";
 import { SerializedStateV1 } from "../serializedStates/v1Types";
 import * as Selectors from "../selectors";
-import { ensureWindowsAreOnScreen, setFocusedWindow } from "./windows";
+import {
+  ensureWindowsAreOnScreen,
+  showWindow,
+  hideWindow,
+  setFocusedWindow,
+} from "./windows";
 
 export {
   toggleDoubleSizeMode,
   toggleEqualizerShadeMode,
   togglePlaylistShadeMode,
   closeWindow,
+  hideWindow,
+  showWindow,
   setWindowSize,
   toggleWindow,
   updateWindowPositions,
@@ -38,7 +45,6 @@ export {
   stackWindows,
   toggleLlamaMode,
   setFocusedWindow,
-  setWindowLayout,
 } from "./windows";
 export {
   play,
@@ -180,8 +186,10 @@ export function loadDefaultSkin(): Action {
 export function toggleMilkdropDesktop(): Thunk {
   return (dispatch, getState) => {
     if (Selectors.getMilkdropDesktopEnabled(getState())) {
+      dispatch(showWindow(WINDOWS.MILKDROP));
       dispatch({ type: SET_MILKDROP_DESKTOP, enabled: false });
     } else {
+      dispatch(hideWindow(WINDOWS.MILKDROP));
       dispatch({ type: SET_MILKDROP_DESKTOP, enabled: true });
     }
   };

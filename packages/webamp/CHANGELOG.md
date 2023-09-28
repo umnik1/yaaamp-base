@@ -1,33 +1,13 @@
-## Upcoming [UNRELEASED] (`webamp@next`)
-
-### Features
-- Allow a single mouse drag across the EQ to set all values [#1180](https://github.com/captbaritone/webamp/pull/1180)
-- Configure the initial layout of windows -- size, position, openness, shade mode -- when constructing a Webamp instance.
-- Configure if "double size mode" should be enabled when constructing a Webamp instance.
-
-### Internal Improvements:
-
-- Upgrade to React 18, React Redux, 8 and Redux 4.1
-- Bundle with Parcel instead of Webpack
-- Build public Typescript directly from source annotations.
-
-## 1.5.0 [CURRENT]
+## NEXT
 
 ### Features
 
 - Support `.ani` cursors in skins [#1035](https://github.com/captbaritone/webamp/pull/1035), [blog post](https://jordaneldredge.com/blog/rendering-animated-ani-cursors-in-the-browser/).
-- Improved support for mobile/touch screen interaction: volume, balance and position sliders, marquee, playlist and window dragging/resizing/focusing. [#1098](https://github.com/captbaritone/webamp/pull/1098)/[#1099](https://github.com/captbaritone/webamp/pull/1099)
 
 ### Bug Fixes
 
 - Fix a number of edge cases where the close and minimize buttons in the equalizer window could render the wrong sprite [#1046](https://github.com/captbaritone/webamp/pull/1046)
 - Fix a bug where unminified bundle was accidentally minified.
-- Treat skin files with forward slashes in their filename as directories [#1052](https://github.com/captbaritone/webamp/pull/1052)
-- Fix a bug where the Milkdrop window could not be moved in some cases [#1068](https://github.com/captbaritone/webamp/pull/1068)
-- Fix a bug where the visualizer in the Playlist window was not hidden when audio was stopped. [#1072](https://github.com/captbaritone/webamp/pull/1072)
-- Fix a bug where the marquee was one pixel too narrow [#1087](https://github.com/captbaritone/webamp/pull/1087)
-- Fix a bug that was preventing the "Misc options" playlist submenu from opening. [c9fe24](https://github.com/captbaritone/webamp/commit/c9fe24daec32d23ac675f57e3c37854e5ecffbde)
-- Rename the `.status` class to `.webamp-status` to avoid potential conflicts with host site. [#1116](https://github.com/captbaritone/webamp/pull/1116)
 
 ## 1.4.2
 
@@ -71,7 +51,7 @@
 - Upgraded [React Redux](https://github.com/reduxjs/react-redux) ([c3c3ad](https://github.com/captbaritone/webamp/commit/c3c3ad69abacdc34b58f3385b39b2634e9271590))
 - Several improvements to the performance of rendering Redux updates ([c75214](https://github.com/captbaritone/webamp/commit/c75214dcd7475b27f24c159cda26117a143ff740), [73f87b](https://github.com/captbaritone/webamp/commit/73f87be7c34acf5d0d5227a2a1b0e9718da11875), [4322aa](https://github.com/captbaritone/webamp/commit/4322aade4b5a60926c280e1807c4592cf915b497), [e89aa2](https://github.com/captbaritone/webamp/commit/e89aa266121ba7f890b96351d2da46314b7589e7),)
 
-## 1.3.1
+## 1.3.1 [CURRENT]
 
 ### Bug Fixes:
 
@@ -97,7 +77,7 @@ See a full list below:
 - Our ID3 parsing library [jsmediatags](https://github.com/aadsm/jsmediatags) has been replaced by [music-metadata-browser](https://www.npmjs.com/package/music-metadata-browser). This means we now support a broader range of media types, and also that the bitrate and sample rate displayed are now functional
 - The default skin is now included in the Skins section of the options menu by default
 - Implemented the "Options" sub context menu. Click the "O" in the "clutter bar" or select "Options" from the main context menu to see it
-- The equalizer graph is nolonger antialiased. It is now pixelated like real Winamp
+- The equlizer graph is nolonger antialiased. It is now pixelated like real Winamp
 - Added a `.reopen()` method to reopen Webamp after you've closed it ([47ba520](https://github.com/captbaritone/webamp/commit/47ba520c2422d8e4842468a32ca13492845183cd))
 - Stip diacritic marks from song description so it displays better in the marquee ([2b2598](https://github.com/captbaritone/webamp/commit/2b2598329d3891ee8a976b8169066586110a767a))
 
@@ -112,7 +92,7 @@ See a full list below:
 - Scrolling in the Equalizer window nolonger changes the volume ([48a937](https://github.com/captbaritone/webamp/commit/48a937da8722ccfd3c2e9df378a847c453c36864))
 - Clicking anywhere in a equalizer slider now makes the button depress ([20e681](20e6811e6f59e82a5765c38b0b33fbed2eb575ee)
 - Parsing of the `viscolor.txt` file in skins is now more permissive, allowing us to support more skins ([0d29ff](0d29ffe3f4b20505005346cbc97d0cdf85664619))
-- The hotkeys to seek forward/backwards 10 tracks now works properly ([7d9ef4](https://github.com/captbaritone/webamp/commit/7d9ef4287f7294f6bdc1db89b717592cf4e48f17))
+- The hotkeys to seek forward/backwards 10 tracks now works propery ([7d9ef4](https://github.com/captbaritone/webamp/commit/7d9ef4287f7294f6bdc1db89b717592cf4e48f17))
 - Fix a bug where the preamp level was not applied until you changed it ([f03c88](https://github.com/captbaritone/webamp/commit/f03c88c6d89fd51cbc0538841bb3227accfa0431))
 - Fix a bug where `.eqf` values were encoded incorrectly ([c634cd](https://github.com/captbaritone/webamp/commit/c634cd8b947e5d2d8b94b38023bc20097737a995))
 - Preamp and EQ now boost/attenuate the same way original winamp 2 did ([#748](https://github.com/captbaritone/webamp/pull/748))
@@ -120,7 +100,7 @@ See a full list below:
 ### Internal Improvements:
 
 - Webamp is now written in [TypeScript](https://www.typescriptlang.org/).
-- Upgraded to React and began using a few [hooks](https://reactjs.org/docs/hooks-overview.html).
+- Upraded to React and began using a few [hooks](https://reactjs.org/docs/hooks-overview.html).
 - We nolonger depend upon [cardinal-spline-js](https://www.npmjs.com/package/cardinal-spline-js), we use our own implementation.
 
 ## 1.2.0
@@ -137,7 +117,7 @@ See a full list below:
 
 ### Changes
 
-Webamp is no-longer rendered into the DOM node you pass into `webamp.renderWhenReady()`. Instead, Webamp is rendered as a direct child of the `<body>` tag. The passed DOM node is still used for positioning. Webamp will attempt to center itself within that DOM node when it renders.
+Webamp is no-longer rendered into the DOM node you pass into `webamp.renderWhenReady()`. Instead, Webamp is rendred as a direct child of the `<body>` tag. The passed DOM node is still used for positioning. Webamp will attempt to center itself within that DOM node when it renders.
 
 ### Features
 
@@ -161,7 +141,7 @@ Webamp is no-longer rendered into the DOM node you pass into `webamp.renderWhenR
 ### Breaking
 
 - Webamp will attempt to center itself within the node it is rendered into, rather than within the entire page.
-- Webamp now includes the default skin directly in the JS bundle, so you don't need host it separately, or pass a URL as part of the initialization.
+- Webamp now includes the default skin directly in the JS bundle, so you don't need host it separately, or pass a URL as part of the initialztiaon.
 
 ### Features
 
@@ -191,7 +171,7 @@ Webamp is no-longer rendered into the DOM node you pass into `webamp.renderWhenR
 ### Added
 
 - Instance method to be notified when Webamp is closed `webamp.onClose(callback)`.
-- Instance method to be notified when Webamp is minimized `webamp.onMinimize(callback)`.
+- Instance method to be notified when Webamp is minmized `webamp.onMinimize(callback)`.
 - Support for skins that use `.png` sprite sheets instead of `.bmp`. This saves 15kb for the default skin on the demo page. ([b88e87](https://github.com/captbaritone/winamp2-js/commit/b88e87b6584fd9db2e2295addab7bba0c1acd226))
 - We now attempt to detect mono audio files. Previously mono files would report as stereo and play only in the left channel.
 

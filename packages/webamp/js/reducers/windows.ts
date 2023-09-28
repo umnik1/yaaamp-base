@@ -4,6 +4,7 @@ import {
   SET_FOCUSED_WINDOW,
   TOGGLE_WINDOW,
   CLOSE_WINDOW,
+  SET_WINDOW_VISIBILITY,
   UPDATE_WINDOW_POSITIONS,
   WINDOW_SIZE_CHANGED,
   TOGGLE_WINDOW_SHADE_MODE,
@@ -15,20 +16,23 @@ import {
 import * as Utils from "../utils";
 import { WindowsSerializedStateV1 } from "../serializedStates/v1Types";
 
+export type WindowPosition = Point;
+
 export type WindowPositions = {
-  [windowId: string]: Point;
+  [windowId: string]: WindowPosition;
 };
 
 export interface WebampWindow {
   title: string;
   size: [number, number];
   open: boolean;
+  hidden: boolean;
   shade?: boolean;
   canResize: boolean;
   canShade: boolean;
   canDouble: boolean;
   hotkey?: string;
-  position: Point;
+  position: WindowPosition;
 }
 
 export interface WindowInfo extends Box {
@@ -46,11 +50,12 @@ const defaultWindowsState: WindowsState = {
   focused: WINDOWS.MAIN,
   positionsAreRelative: true,
   genWindows: {
-    // TODO: Remove static capabilities and derive them from ids/generic
+    // TODO: Remove static capabilites and derive them from ids/generic
     [WINDOWS.MAIN]: {
       title: "Main Window",
       size: [0, 0],
       open: true,
+      hidden: false,
       shade: false,
       canResize: false,
       canShade: true,
@@ -62,6 +67,7 @@ const defaultWindowsState: WindowsState = {
       title: "Equalizer",
       size: [0, 0],
       open: true,
+      hidden: false,
       shade: false,
       canResize: false,
       canShade: true,
@@ -73,6 +79,7 @@ const defaultWindowsState: WindowsState = {
       title: "Playlist Editor",
       size: [0, 0],
       open: true,
+      hidden: false,
       shade: false,
       canResize: true,
       canShade: true,
@@ -104,6 +111,7 @@ const windows = (
             title: "Milkdrop",
             size: [0, 0],
             open: action.open,
+            hidden: false,
             shade: false,
             canResize: true,
             canShade: false,
@@ -147,6 +155,8 @@ const windows = (
           [action.windowId]: {
             ...windowState,
             open: !windowState.open,
+            // Reset hidden state when opening window
+            hidden: windowState.open ? windowState.hidden : false,
           },
         },
       };
@@ -158,6 +168,17 @@ const windows = (
           [action.windowId]: {
             ...state.genWindows[action.windowId],
             open: false,
+          },
+        },
+      };
+    case SET_WINDOW_VISIBILITY:
+      return {
+        ...state,
+        genWindows: {
+          ...state.genWindows,
+          [action.windowId]: {
+            ...state.genWindows[action.windowId],
+            hidden: action.hidden,
           },
         },
       };
@@ -201,8 +222,11 @@ const windows = (
         })),
       };
     case LOAD_SERIALIZED_STATE: {
-      const { genWindows, focused, positionsAreRelative } =
-        action.serializedState.windows;
+      const {
+        genWindows,
+        focused,
+        positionsAreRelative,
+      } = action.serializedState.windows;
       return {
         ...state,
         positionsAreRelative,
@@ -211,9 +235,7 @@ const windows = (
           if (serializedW == null) {
             return w;
           }
-          // Pull out `hidden` since it's been removed from our state.
-          const { hidden, ...rest } = serializedW;
-          return { ...w, ...rest };
+          return { ...w, ...serializedW };
         }),
         focused,
       };
@@ -238,7 +260,7 @@ export function getSerializedState(
       return {
         size: w.size,
         open: w.open,
-        hidden: false, // Not used any more
+        hidden: w.hidden,
         shade: w.shade || false,
         position: w.position,
       };

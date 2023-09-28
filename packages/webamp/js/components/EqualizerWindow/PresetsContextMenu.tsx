@@ -3,7 +3,6 @@ import * as Actions from "../../actionCreators";
 import { Node, Parent, Hr } from "../ContextMenu";
 import ContextMenuTarget from "../ContextMenuTarget";
 import { useActionCreator } from "../../hooks";
-import WinampButton from "../WinampButton";
 
 const PresetsContextMenu = () => {
   const openEqfFileDialog = useActionCreator(Actions.openEqfFileDialog);
@@ -30,7 +29,7 @@ const PresetsContextMenu = () => {
         </>
       )}
     >
-      <WinampButton id="presets" />
+      <div id="presets" />
     </ContextMenuTarget>
   );
 };

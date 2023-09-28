@@ -5,7 +5,7 @@ interface Resource<Payload> {
   read: () => Payload;
 }
 
-type Status = "pending" | "success" | "error";
+type status = "pending" | "success" | "error";
 
 // this function let us get a new function using the asyncFn we pass
 // this function also receives a payload and return us a resource with
@@ -14,7 +14,7 @@ function createResource<Payload>(
   asyncFn: () => Promise<Payload>
 ): Resource<Payload> {
   // we start defining our resource is on a pending status
-  let status: Status = "pending";
+  let status: status = "pending";
   // and we create a variable to store the result
   let result: any;
   // then we immediately start running the `asyncFn` function

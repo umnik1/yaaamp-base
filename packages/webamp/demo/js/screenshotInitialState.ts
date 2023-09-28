@@ -1,4 +1,5 @@
-import { PartialState } from "./Webamp";
+import { DeepPartial } from "redux";
+import { AppState } from "../../js/types";
 
 const defaultTracksState = {
   "0": {
@@ -43,7 +44,7 @@ const defaultTracksState = {
   },
 };
 
-const initialState: PartialState = {
+const initialState: DeepPartial<AppState> = {
   equalizer: {
     sliders: {
       "60": 52,

@@ -5,7 +5,6 @@ import * as Selectors from "../../selectors";
 import ContextMenuWraper from "../ContextMenuWrapper";
 import { Node } from "../ContextMenu";
 import { useTypedSelector, useActionCreator } from "../../hooks";
-import WinampButton from "../WinampButton";
 
 const Repeat = memo(() => {
   const repeat = useTypedSelector(Selectors.getRepeat);
@@ -21,7 +20,7 @@ const Repeat = memo(() => {
         />
       )}
     >
-      <WinampButton
+      <div
         id="repeat"
         className={classnames({ selected: repeat })}
         onClick={handleClick}

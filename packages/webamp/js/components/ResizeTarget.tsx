@@ -3,7 +3,6 @@ import {
   WINDOW_RESIZE_SEGMENT_WIDTH,
   WINDOW_RESIZE_SEGMENT_HEIGHT,
 } from "../constants";
-import * as Utils from "../utils";
 
 type Size = [number, number];
 
@@ -25,9 +24,9 @@ function ResizeTarget(props: Props) {
       return;
     }
     const [width, height] = currentSize;
-    const handleMove = (ee: MouseEvent | TouchEvent) => {
-      const x = Utils.getX(ee) - mouseStart.x;
-      const y = Utils.getY(ee) - mouseStart.y;
+    const handleMove = (ee: MouseEvent) => {
+      const x = ee.clientX - mouseStart.x;
+      const y = ee.clientY - mouseStart.y;
 
       const newWidth = Math.max(
         0,
@@ -44,38 +43,28 @@ function ResizeTarget(props: Props) {
     };
 
     window.addEventListener("mousemove", handleMove);
-    window.addEventListener("touchmove", handleMove);
 
     const handleMouseUp = () => setMouseDown(false);
     window.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("touchend", handleMouseUp);
 
     return () => {
       window.removeEventListener("mousemove", handleMove);
-      window.removeEventListener("touchmove", handleMove);
       window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("touchend", handleMouseUp);
     };
     // We pruposefully close over the props from when the mouse went down
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mouseStart, mouseDown]);
 
-  const handleMouseDown = (
-    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
-  ) => {
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Prevent dragging from highlighting text.
+    e.preventDefault();
     setMouseStart({
-      x: Utils.getX(e),
-      y: Utils.getY(e),
+      x: e.clientX,
+      y: e.clientY,
     });
     setMouseDown(true);
   };
 
-  return (
-    <div
-      onMouseDown={handleMouseDown}
-      onTouchStart={handleMouseDown}
-      {...passThroughProps}
-    />
-  );
+  return <div onMouseDown={handleMouseDown} {...passThroughProps} />;
 }
 export default memo(ResizeTarget);

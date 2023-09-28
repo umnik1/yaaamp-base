@@ -1,4 +1,4 @@
-import { ButterchurnOptions } from "./Webamp";
+import { ButterchurnOptions } from "../../js/types";
 
 const KNOWN_PRESET_URLS_REGEXES = [
   /^https:\/\/unpkg\.com\/butterchurn-presets\/.*\.json$/,
@@ -34,7 +34,7 @@ export function getButterchurnOptions(
   return {
     importButterchurn: () => {
       return import(
-        /* webpackChunkName: "butterchurn" */
+        /* webpackChunkName: "butterchurn-initial-dependencies" */
         // @ts-ignore
         "butterchurn"
       );
@@ -89,15 +89,10 @@ export function getButterchurnOptions(
           throw new Error("We still need to implement this");
         }
       }
-
-      const presets = await import(
-        /* webpackChunkName: "butterchurn-presets" */
-        // @ts-ignore
-        "butterchurn-presets"
+      // TODO: Fallback to some other presets?
+      return loadButterchurnPresetMapURL(
+        "https://unpkg.com/butterchurn-presets-weekly@0.0.2/weeks/week1/presets.json"
       );
-      return Object.entries(presets.default).map(([name, preset]) => {
-        return { name, butterchurnPresetObject: preset as Object };
-      });
     },
     butterchurnOpen: !startWithMilkdropHidden,
   };

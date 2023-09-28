@@ -20,12 +20,9 @@ import PlaylistWindow from "./PlaylistWindow";
 import EqualizerWindow from "./EqualizerWindow";
 import Skin from "./Skin";
 
+import "../../css/webamp.css";
 import Media from "../media";
 import { useTypedSelector, useActionCreator } from "../hooks";
-import Css from "./Css";
-
-// @ts-ignore
-import cssText from "bundle-text:../../css/webamp.css";
 
 interface Props {
   filePickers: FilePicker[];
@@ -132,7 +129,6 @@ export default function App({ media, filePickers }: Props) {
 
   return ReactDOM.createPortal(
     <StrictMode>
-      <Css>{cssText}</Css>
       <div onBlur={handleBlur}>
         <Skin />
         <ContextMenuWrapper

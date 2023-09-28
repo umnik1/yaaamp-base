@@ -11,11 +11,7 @@ export const getFileExtension = (fileName: string): string | null => {
 };
 
 function getFilenameRegex(base: string, ext: string): RegExp {
-  // Note: The four slashes: \\\\ ultimately represent a single escaped slash in
-  // the regex ("\\"), however each itself needs to be escaped so that
-  // JavaScript does not interperate it as an escape character in the string
-  // literal. Wonderful.
-  return new RegExp(`^(.*[/\\\\])?${base}.(${ext})$`, "i");
+  return new RegExp(`^(.*/)?${base}.(${ext})$`, "i");
 }
 
 export async function getFileFromZip(
@@ -145,7 +141,12 @@ export async function getCursorFromFilename(
   }
   const contents = file.contents as Uint8Array;
   if (arrayStartsWith(contents, RIFF_MAGIC)) {
-    return { type: "ani", aniData: contents };
+    try {
+      return { type: "ani", aniData: contents };
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
   }
 
   return { type: "cur", url: FileUtils.curUrlFromByteArray(contents) };

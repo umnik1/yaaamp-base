@@ -79,12 +79,8 @@ function readAni(contents: Uint8Array): AniCursorImage {
 let i = 0;
 const uniqueId = () => i++;
 
-export function base64FromDataArray(dataArray: Uint8Array): string {
-  return window.btoa(
-    Array.from(dataArray)
-      .map((byte) => String.fromCharCode(byte))
-      .join("")
-  );
+function base64FromDataArray(dataArray: Uint8Array): string {
+  return window.btoa(String.fromCharCode(...dataArray));
 }
 
 function curUrlFromByteArray(arr: Uint8Array) {

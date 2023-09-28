@@ -1,8 +1,17 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "target": "esnext",
     "allowJs": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "target": "es5"
-  }
+    "strict": true,
+    "jsx": "preserve",
+    "noEmit": true,
+    "pretty": true
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "built"]
 }

@@ -5,41 +5,11 @@
     "packages/*",
     "examples/*"
   ],
-  "engines": {
-    "node": ">=16.0.0"
-  },
   "scripts": {
-    "test": "jest",
-    "lint": "eslint . --ext ts,tsx,js,jsx --rulesdir=packages/webamp-modern/tools/eslint-rules",
-    "deploy": "sh deploy.sh",
-    "format": "prettier --write '**/*.{js,ts,tsx}'"
+    "deploy": "yarn workspace ani-cursor build && yarn workspace webamp build && yarn workspace webamp build-library"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^7.16.7",
-    "@parcel/optimizer-data-url": "2.7.0",
-    "@parcel/transformer-inline-string": "^2.8.2",
-    "@swc/core": "^1.3.24",
-    "@swc/jest": "^0.2.24",
-    "@typescript-eslint/parser": "^5.13.0",
-    "assert": "^2.0.0",
-    "eslint": "^8.14.0",
-    "eslint-config-react-app": "^7.0.1",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-react": "^7.16.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "events": "^3.3.0",
-    "jest": "^27.5.1",
-    "prettier": "^2.3.2",
-    "stream-browserify": "^3.0.0"
+    "prettier": "^2.0.5"
   },
-  "prettier": {
-    "trailingComma": "es5"
-  },
-  "jest": {
-    "projects": [
-      "config/jest.*.js"
-    ]
-  },
-  "dependencies": {}
+  "prettier": {}
 }

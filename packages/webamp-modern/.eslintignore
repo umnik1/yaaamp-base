@@ -1,1 +1,6 @@
-build/
+*.min.js
+built/
+coverage/
+**/node_modules/
+examples/webpack/bundle.js
+pacakges/tweetBot/env/
