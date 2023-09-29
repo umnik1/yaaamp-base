@@ -1,4 +1,5 @@
-import { memo, Fragment, useEffect } from "react";
+import { memo, Fragment, useEffect, useState } from "react";
+const { ipcRenderer } = window.require('electron');
 import * as Actions from "../../actionCreators";
 import * as Selectors from "../../selectors";
 import { LOAD_STYLE } from "../../constants";
@@ -24,7 +25,18 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
   const menuOpened = useActionCreator(() => ({
     type: "MAIN_CONTEXT_MENU_OPENED",
   }));
+  const [playlists, setPlaylists] = useState([]);
+  const [playlistgetted, setPlaylistgetted] = useState(false);
+
   useEffect(() => {
+    if (!playlistgetted) {
+      ipcRenderer.invoke('getUserPlaylists').then((rs: any) => {
+        setPlaylists(rs);
+        setPlaylistgetted(true);
+        console.log(rs);
+        console.log(123);
+      })
+    }
     menuOpened();
   }, [menuOpened]);
 
@@ -37,26 +49,15 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
       />
       <Hr />
       <Parent label="Плейлисты">
-        <Node onClick={openMediaFileDialog} label="File..." hotkey="L" />
-        {filePickers != null &&
-          filePickers.map(
-            (picker, i) =>
-              (networkConnected || !picker.requiresNetwork) && (
-                <Node
-                  key={i}
-                  onClick={async () => {
-                    let files;
-                    try {
-                      files = await picker.filePicker();
-                    } catch (e) {
-                      console.error("Error loading from file picker", e);
-                    }
-                    loadMediaFiles(files || [], LOAD_STYLE.PLAY);
-                  }}
-                  label={picker.contextMenuName}
-                />
-              )
-          )}
+        {playlists.map((playlist: any) => {
+          return (
+            <Node onClick={async () => {
+              ipcRenderer.invoke("setPlaylist", {uid: playlist.uid, kind: playlist.kind }).then(() => {
+                console.log('123');
+              })
+            }} label={playlist.title} />
+          );
+        })}
       </Parent>
       <Hr />
       {Object.keys(genWindows).map((i) => (
