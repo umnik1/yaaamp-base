@@ -68,7 +68,7 @@ export default (media: Media) => (store: MiddlewareStore) => {
     store.dispatch({
       id,
       type: SET_MEDIA,
-      kbps: "128",
+      kbps: "320",
       khz: "44",
       channels: 2,
       length: media.duration(),

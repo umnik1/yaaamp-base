@@ -81,6 +81,8 @@
   display: none;
   left: 100%;
   margin-left: -3px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 #webamp-context-menu .context-menu li:hover > ul {

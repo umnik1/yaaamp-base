@@ -2,6 +2,7 @@ import Emitter from "../emitter";
 import { clamp } from "../utils";
 import { MEDIA_STATUS } from "../constants";
 import { MediaStatus } from "../types";
+const { ipcRenderer } = window.require('electron');
 
 export default class ElementSource {
   _emitter: Emitter;
@@ -95,7 +96,13 @@ export default class ElementSource {
   // Async for now, for compatibility with BufferAudioSource
   // TODO: This does not need to be async
   async loadUrl(url: string) {
-    this._audio.src = url;
+    if (/^\d+$/.test(url)) {
+      await ipcRenderer.invoke('getTrackByID', url).then((link: any) => {
+        this._audio.src = link;
+      });
+    } else {
+        this._audio.src = url;
+    }
   }
 
   async play() {

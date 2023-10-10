@@ -26,15 +26,25 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
     type: "MAIN_CONTEXT_MENU_OPENED",
   }));
   const [playlists, setPlaylists] = useState([]);
+  const [artists, setArtists] = useState([]);
+  const [albums, setAlbums] = useState([]);
+  const [rotors, setRotors] = useState([]);
   const [playlistgetted, setPlaylistgetted] = useState(false);
 
   useEffect(() => {
     if (!playlistgetted) {
+      setPlaylistgetted(true);
       ipcRenderer.invoke('getUserPlaylists').then((rs: any) => {
         setPlaylists(rs);
-        setPlaylistgetted(true);
-        console.log(rs);
-        console.log(123);
+      })
+      ipcRenderer.invoke('getUserArtists').then((rs: any) => {
+        setArtists(rs);
+      })
+      ipcRenderer.invoke('getUserAlbums').then((rs: any) => {
+        setAlbums(rs);
+      })
+      ipcRenderer.invoke('getRotor').then((rs: any) => {
+        setRotors(rs);
       })
     }
     menuOpened();
@@ -48,14 +58,45 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
         label="Yaamp..."
       />
       <Hr />
+      <Node onClick={async () => {
+        ipcRenderer.invoke("setMywave").then(() => {})
+      }} label="Моя волна" />
+      <Node onClick={async () => {
+        ipcRenderer.invoke("setMyloved").then(() => {})
+      }} label="Любимые треки" />
       <Parent label="Плейлисты">
         {playlists.map((playlist: any) => {
           return (
             <Node onClick={async () => {
-              ipcRenderer.invoke("setPlaylist", {uid: playlist.uid, kind: playlist.kind }).then(() => {
-                console.log('123');
-              })
+              ipcRenderer.invoke("setPlaylist", {uid: playlist.uid, kind: playlist.kind }).then(() => {})
             }} label={playlist.title} />
+          );
+        })}
+      </Parent>
+      <Parent label="Исполнители">
+        {artists.map((artist: any) => {
+          return (
+            <Node onClick={async () => {
+              ipcRenderer.invoke("setArtist", {id: artist.id }).then(() => {})
+            }} label={artist.title} />
+          );
+        })}
+      </Parent>
+      <Parent label="Альбомы">
+        {albums.map((album: any) => {
+          return (
+            <Node onClick={async () => {
+              ipcRenderer.invoke("setAlbum", {id: album.id }).then(() => {})
+            }} label={album.title} />
+          );
+        })}
+      </Parent>
+      <Parent label="Станции">
+        {rotors.map((rotor: any) => {
+          return (
+            <Node onClick={async () => {
+              ipcRenderer.invoke("setRotor", {id: rotor.id }).then(() => {})
+            }} label={rotor.title} />
           );
         })}
       </Parent>

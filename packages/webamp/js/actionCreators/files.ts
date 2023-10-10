@@ -286,7 +286,7 @@ export function loadMediaFile(
         // TODO: Ideally we would leave these as null and force a media data
         // fetch when the user starts playing.
         sampleRate: 44000,
-        bitrate: 192000,
+        bitrate: 320000,
         numberOfChannels: 2,
         id,
       });
