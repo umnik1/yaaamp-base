@@ -90,7 +90,7 @@ export function loadFilesFromReferences(
 export function setSkinFromBlob(blob: Blob | Promise<Blob>): Thunk {
   return async (dispatch, getState, { requireJSZip }) => {
     if (!requireJSZip) {
-      alert("Webamp has not been configured to support custom skins.");
+      alert("Yaamp has not been configured to support custom skins.");
       return;
     }
     dispatch({ type: LOADING });
@@ -428,7 +428,7 @@ export function addFilesFromUrl(atIndex = 0): Thunk {
         return;
       }
     } else {
-      alert("Not supported in Webamp");
+      alert("Not supported in Yaamp");
     }
   };
 }
@@ -445,7 +445,7 @@ export function addFilesFromList(): Thunk {
         return;
       }
     } else {
-      alert("Not supported in Webamp");
+      alert("Not supported in Yaamp");
     }
   };
 }
@@ -455,7 +455,7 @@ export function saveFilesToList(): Thunk {
     if (handleSaveListEvent) {
       handleSaveListEvent(getUserTracks(getState()));
     } else {
-      alert("Not supported in Webamp");
+      alert("Not supported in Yaamp");
     }
   };
 }

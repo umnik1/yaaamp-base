@@ -12,7 +12,7 @@ const RemoveMenu = () => {
     <PlaylistMenu id="playlist-remove-menu">
       <div
         className="remove-misc"
-        onClick={() => alert("Not supported in Webamp")}
+        onClick={() => alert("Not supported in Yaamp")}
       />
       <div className="remove-all" onClick={removeAll} />
       <div className="crop" onClick={crop} />

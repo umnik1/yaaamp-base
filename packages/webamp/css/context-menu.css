@@ -37,6 +37,10 @@
   display: block;
 }
 
+#webamp-context-menu .context-menu li.input {
+  padding: 0;
+}
+
 #webamp-context-menu .context-menu li.checked:before {
   float: left;
   /* TODO: Use an image */
@@ -87,4 +91,13 @@
 
 #webamp-context-menu .context-menu li:hover > ul {
   display: block;
+}
+
+.searchField {
+  width: 120px;
+  height: 20px;
+  border: 0;
+  padding: 1px 18px 3px;
+  font-family: Tahoma;
+  font-size: 11px;
 }

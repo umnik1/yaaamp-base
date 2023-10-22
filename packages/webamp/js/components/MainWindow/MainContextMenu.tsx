@@ -1,4 +1,4 @@
-import { memo, Fragment, useEffect, useState } from "react";
+import { memo, Fragment, useEffect, useState, SetStateAction } from "react";
 const { ipcRenderer } = window.require('electron');
 import * as Actions from "../../actionCreators";
 import * as Selectors from "../../selectors";
@@ -30,6 +30,15 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
   const [albums, setAlbums] = useState([]);
   const [rotors, setRotors] = useState([]);
   const [playlistgetted, setPlaylistgetted] = useState(false);
+  const [searchResult, setsearchResult] = useState([]);
+  const [lendings, setLendings] = useState([]);
+
+
+  const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
+    ipcRenderer.invoke("search", {searchText: event.target.value}).then((rs: any) => {
+      setsearchResult(rs);
+    })
+  };
 
   useEffect(() => {
     if (!playlistgetted) {
@@ -46,17 +55,19 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
       ipcRenderer.invoke('getRotor').then((rs: any) => {
         setRotors(rs);
       })
+      ipcRenderer.invoke('lendings').then((rs: any) => {
+        setLendings(rs);
+      })
     }
+
     menuOpened();
   }, [menuOpened]);
 
   return (
     <Fragment>
-      <LinkNode
-        href="https://webamp.org/about"
-        target="_blank"
-        label="Yaamp..."
-      />
+      <Node onClick={async () => {
+        ipcRenderer.invoke("openLink", {link: "https://yaamp.ru/"}).then(() => {})
+      }} label="Yaamp..." />
       <Hr />
       <Node onClick={async () => {
         ipcRenderer.invoke("setMywave").then(() => {})
@@ -64,6 +75,32 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
       <Node onClick={async () => {
         ipcRenderer.invoke("setMyloved").then(() => {})
       }} label="Любимые треки" />
+      <Hr />
+      {lendings.map((result: any) => {
+          return (
+            <Node onClick={async () => {
+              ipcRenderer.invoke("setPlaylist", {uid: result.data.data.uid, kind: result.data.data.kind }).then(() => {})
+            }} label={result.data.data.title} />
+          );
+        })}
+      <Hr />
+      <Parent label="Поиск...">
+        <li className="input" id="notClose"><input className="searchField" type="text" id="notClose" placeholder="Введите текст..." onChange={handleChange} /></li>
+        <Hr />
+        {searchResult.map((result: any) => {
+          return (
+            <Node onClick={async () => {
+              if (result.type == 'artist') {
+                ipcRenderer.invoke("setArtist", {id: result.id }).then(() => {})
+              }
+              if (result.type == 'album') {
+                ipcRenderer.invoke("setAlbum", {id: result.id }).then(() => {})
+              }
+            }} label={result.name} />
+          );
+        })}
+      </Parent>
+      <Hr />
       <Parent label="Плейлисты">
         {playlists.map((playlist: any) => {
           return (
@@ -101,6 +138,10 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
         })}
       </Parent>
       <Hr />
+      <Node onClick={async () => {
+        ipcRenderer.invoke("openPlayNow").then(() => {})
+      }} label="Сейчас играет..." />
+      <Hr />
       {Object.keys(genWindows).map((i) => (
         <Node
           key={i}
@@ -120,6 +161,9 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
         <PlaybackContextMenu />
       </Parent>
       <Hr />
+      <Node onClick={async () => {
+        ipcRenderer.invoke("openLink", {link: "https://www.tinkoff.ru/cf/AIFQ6kyekt4"}).then(() => {})
+      }} label="Поддержать проект" />
       <Node onClick={close} label="Exit" />
     </Fragment>
   );

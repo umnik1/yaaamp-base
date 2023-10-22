@@ -35,6 +35,8 @@ import { FilePicker } from "../../types";
 import FocusTarget from "../FocusTarget";
 import { useActionCreator, useTypedSelector } from "../../hooks";
 
+const { ipcRenderer } = window.require('electron');
+
 interface Props {
   analyser: AnalyserNode;
   filePickers: FilePicker[];
@@ -132,9 +134,11 @@ const MainWindow = React.memo(({ analyser, filePickers }: Props) => {
         </div>
         <a
           id="about"
-          target="_blank"
-          href="https://webamp.org/about"
-          title="About"
+          href="#"
+          title="Yaamp"
+          onClick={async () => {
+            ipcRenderer.invoke("openLink", {link: "https://yaamp.ru/"}).then(() => {})
+          }}
         />
       </FocusTarget>
     </DropTarget>

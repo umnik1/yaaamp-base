@@ -30,7 +30,9 @@ export default function ContextMenuWraper({
   const handleGlobalClick = useCallback(
     (e: MouseEvent) => {
       if (e.button !== 2) {
-        closeMenu();
+        if (e.target instanceof Element && e.target.id !== "notClose") {
+          closeMenu();
+        }
       }
     },
     [closeMenu]
