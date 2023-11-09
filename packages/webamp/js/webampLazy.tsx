@@ -397,6 +397,10 @@ class Winamp {
   setSkinFromUrl(url: string): void {
     this.store.dispatch(Actions.setSkinFromUrl(url));
   }
+  setSkinFromClient(data: string): void {
+    this.store.dispatch(Actions.setSkinFromClient(data));
+  }
+
 
   async skinIsLoaded(): Promise<void> {
     // Wait for the skin to load.

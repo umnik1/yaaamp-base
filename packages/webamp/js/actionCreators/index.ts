@@ -79,6 +79,7 @@ export {
   addTracksFromReferences,
   loadFilesFromReferences,
   setSkinFromUrl,
+  setSkinFromClient,
   openEqfFileDialog,
   openMediaFileDialog,
   openSkinFileDialog,

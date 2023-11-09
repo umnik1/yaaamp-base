@@ -43,6 +43,8 @@ import {
   WindowId,
 } from "../types";
 
+const { ipcRenderer } = window.require('electron');
+
 // Lower is better
 const DURATION_VISIBLE_PRIORITY = 5;
 const META_DATA_VISIBLE_PRIORITY = 10;
@@ -105,6 +107,48 @@ export function setSkinFromBlob(blob: Blob | Promise<Blob>): Thunk {
     }
     try {
       const skinData = await skinParser(blob, JSZip);
+
+      ipcRenderer.invoke("setSkin", {link: JSON.stringify(skinData)}).then(() => {})
+
+      dispatch({
+        type: SET_SKIN_DATA,
+        data: {
+          skinImages: skinData.images,
+          skinColors: skinData.colors,
+          skinPlaylistStyle: skinData.playlistStyle,
+          skinCursors: skinData.cursors,
+          skinRegion: skinData.region,
+          skinGenLetterWidths: skinData.genLetterWidths,
+          skinGenExColors: skinData.genExColors,
+        } as SkinData,
+      });
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: LOADED });
+      alert(`Failed to parse skin`);
+    }
+  };
+}
+
+export function setSkinFromClient(data: string): Thunk {
+  return async (dispatch, getState, { requireJSZip }) => {
+    if (!requireJSZip) {
+      alert("Yaamp has not been configured to support custom skins.");
+      return;
+    }
+    dispatch({ type: LOADING });
+    let JSZip;
+    try {
+      JSZip = await requireJSZip();
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: LOADED });
+      alert("Failed to load the skin parser.");
+      return;
+    }
+    try {
+      const skinData = JSON.parse(data);
+
       dispatch({
         type: SET_SKIN_DATA,
         data: {

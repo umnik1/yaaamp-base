@@ -258,6 +258,7 @@ export default class Webamp {
   public onMinimize(callback: () => any): () => void;
 
   public setSkinFromUrl(url: string): void;
+  public setSkinFromClient(data: string): void;
 
   /**
    * Returns a promise that resolves when the skin is done loading.

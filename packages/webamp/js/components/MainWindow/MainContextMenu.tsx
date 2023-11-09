@@ -162,7 +162,7 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
       </Parent>
       <Hr />
       <Node onClick={async () => {
-        ipcRenderer.invoke("openLink", {link: "https://www.tinkoff.ru/cf/AIFQ6kyekt4"}).then(() => {})
+        ipcRenderer.invoke("openLink", {link: "https://yaamp.ru/donate.php"}).then(() => {})
       }} label="Поддержать проект" />
       <Node onClick={close} label="Exit" />
     </Fragment>
