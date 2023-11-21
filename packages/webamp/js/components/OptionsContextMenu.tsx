@@ -17,9 +17,6 @@ const OptionsContextMenu = () => {
   const shuffle = useTypedSelector(Selectors.getShuffle);
   return (
     <>
-      {/* <Node label="Preferences..." /> */}
-      <SkinsContextMenu />
-      <Hr />
       <Node
         label="Time elapsed"
         hotkey="(Ctrl+T toggles)"

@@ -424,7 +424,8 @@ const SHADE_WINDOW_HEIGHT = 14;
 
 function getWPixelSize(w: WebampWindow, doubled: boolean) {
   const [width, height] = w.size;
-  const doubledMultiplier = doubled && w.canDouble ? 2 : 1;
+  let doubledMultiplier = doubled && w.canDouble ? 2 : 1;
+  if (w.title == "Playlist Editor" ) { doubledMultiplier = 1 }
   const pix = {
     height: WINDOW_HEIGHT + height * WINDOW_RESIZE_SEGMENT_HEIGHT,
     width: WINDOW_WIDTH + width * WINDOW_RESIZE_SEGMENT_WIDTH,

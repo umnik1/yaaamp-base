@@ -17,6 +17,7 @@
   left: 0;
   height: 14px;
   width: 275px;
+  -webkit-app-region: drag;
 }
 
 #webamp #option-context,
@@ -27,6 +28,8 @@
   height: 9px;
   width: 9px;
   top: 3px;
+  -webkit-app-region: no-drag;
+  cursor: pointer;
 }
 
 #webamp #title-bar #option {

@@ -46,6 +46,7 @@ function PlaylistWindow({ analyser }: Props) {
   const playlistShade = Boolean(getWindowShade(WINDOWS.PLAYLIST));
   const playlistSize = getWindowSize(WINDOWS.PLAYLIST);
   const playlistWindowPixelSize = getWindowPixelSize(WINDOWS.PLAYLIST);
+  const doubled = useTypedSelector(Selectors.getDoubled);
 
   const close = useActionCreator(Actions.closeWindow);
   const toggleShade = useActionCreator(Actions.togglePlaylistShadeMode);
@@ -85,7 +86,7 @@ function PlaylistWindow({ analyser }: Props) {
     width: `${playlistWindowPixelSize.width}px`,
   };
 
-  const classes = classnames("window", "draggable", { selected });
+  const classes = classnames("window", "draggable", { selected, doubled });
 
   const showSpacers = playlistSize[0] % 2 === 0;
 
@@ -97,7 +98,6 @@ function PlaylistWindow({ analyser }: Props) {
         className={classes}
         style={style}
         handleDrop={handleDrop}
-        onWheel={scrollVolume}
       >
         <div className="playlist-top draggable" onDoubleClick={toggleShade}>
           <div className="playlist-top-left draggable" />

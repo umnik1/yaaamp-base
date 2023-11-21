@@ -96,7 +96,7 @@ export default class ElementSource {
   // Async for now, for compatibility with BufferAudioSource
   // TODO: This does not need to be async
   async loadUrl(url: string) {
-    if (/^\d+$/.test(url)) {
+    if (/^\d+$/.test(url) || /^.*-.*-.*-.*-.*$/.test(url)) {
       await ipcRenderer.invoke('getTrackByID', url).then((link: any) => {
         this._audio.src = link;
       });

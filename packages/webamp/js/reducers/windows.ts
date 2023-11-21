@@ -83,7 +83,7 @@ const defaultWindowsState: WindowsState = {
       shade: false,
       canResize: true,
       canShade: true,
-      canDouble: false,
+      canDouble: true,
       hotkey: "Alt+E",
       position: { x: 0, y: 0 },
     },

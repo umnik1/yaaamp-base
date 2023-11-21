@@ -165,6 +165,7 @@ export function setSkinFromClient(data: string): Thunk {
       console.error(e);
       dispatch({ type: LOADED });
       alert(`Failed to parse skin`);
+      ipcRenderer.invoke("deleteSkin").then(() => {})
     }
   };
 }

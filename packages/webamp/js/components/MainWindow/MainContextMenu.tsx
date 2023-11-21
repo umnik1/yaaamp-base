@@ -32,7 +32,7 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
   const [playlistgetted, setPlaylistgetted] = useState(false);
   const [searchResult, setsearchResult] = useState([]);
   const [lendings, setLendings] = useState([]);
-
+  const [data, setData] = useState<any>([]);
 
   const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
     ipcRenderer.invoke("search", {searchText: event.target.value}).then((rs: any) => {
@@ -43,6 +43,9 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
   useEffect(() => {
     if (!playlistgetted) {
       setPlaylistgetted(true);
+      ipcRenderer.invoke("nowPlaylist").then((data: any) => {
+        setData(data);
+      })
       ipcRenderer.invoke('getUserPlaylists').then((rs: any) => {
         setPlaylists(rs);
       })
@@ -65,9 +68,22 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
 
   return (
     <Fragment>
-      <Node onClick={async () => {
-        ipcRenderer.invoke("openLink", {link: "https://yaamp.ru/"}).then(() => {})
-      }} label="Yaamp..." />
+      {
+        (data.uid) ? (
+          <>
+          <Node onClick={async () => {
+            ipcRenderer.invoke("openLink", { link: "https://yaamp.ru/" }).then(() => { });
+          } } label={data.title} />
+          <Node onClick={async () => {
+            ipcRenderer.invoke("setPlaylistRecomendation", { uid: data.uid, kind: data.kind }).then(() => { });
+          } } label="Рекомендации по плейлисту" />
+        </>
+        ) : (
+          <Node onClick={async () => {
+            ipcRenderer.invoke("openLink", {link: "https://yaamp.ru/"}).then(() => {})
+          }} label="Yaamp" />
+        )
+      }
       <Hr />
       <Node onClick={async () => {
         ipcRenderer.invoke("setMywave").then(() => {})
@@ -141,6 +157,12 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
       <Node onClick={async () => {
         ipcRenderer.invoke("openPlayNow").then(() => {})
       }} label="Сейчас играет..." />
+      <Node onClick={async () => {
+        ipcRenderer.invoke("setLike").then(() => {})
+      }} label="Лайк" />
+      <Node onClick={async () => {
+        ipcRenderer.invoke("setDislike").then(() => {})
+      }} label="Дизлайк" />
       <Hr />
       {Object.keys(genWindows).map((i) => (
         <Node
@@ -164,6 +186,10 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
       <Node onClick={async () => {
         ipcRenderer.invoke("openLink", {link: "https://yaamp.ru/donate.php"}).then(() => {})
       }} label="Поддержать проект" />
+      <Hr />
+      <Node onClick={async () => {
+        ipcRenderer.invoke("logout").then(() => {})
+      }} label="Выйти из аккаунта" />
       <Node onClick={close} label="Exit" />
     </Fragment>
   );
