@@ -3,6 +3,7 @@ import {
   WINDOW_RESIZE_SEGMENT_WIDTH,
   WINDOW_RESIZE_SEGMENT_HEIGHT,
 } from "../constants";
+const { ipcRenderer } = window.require('electron');
 
 type Size = [number, number];
 
@@ -19,6 +20,8 @@ function ResizeTarget(props: Props) {
   const [mouseStart, setMouseStart] = useState<null | { x: number; y: number }>(
     null
   );
+  let currentNewSize = [0, 0];
+
   useEffect(() => {
     if (mouseDown === false || mouseStart == null) {
       return;
@@ -38,13 +41,14 @@ function ResizeTarget(props: Props) {
         : Math.max(0, height + Math.round(y / WINDOW_RESIZE_SEGMENT_HEIGHT));
 
       const newSize: Size = [newWidth, newHeight];
+      currentNewSize = newSize;
 
       props.setWindowSize(newSize);
     };
 
     window.addEventListener("mousemove", handleMove);
 
-    const handleMouseUp = () => setMouseDown(false);
+    const handleMouseUp = () => { setMouseDown(false); ipcRenderer.invoke('setSize', {size: currentNewSize}).then((rs: any) => {}); }
     window.addEventListener("mouseup", handleMouseUp);
 
     return () => {

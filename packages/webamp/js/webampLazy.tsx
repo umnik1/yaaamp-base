@@ -330,6 +330,10 @@ class Winamp {
     this.store.dispatch(Actions.next());
   }
 
+  centerWindowsInView() {
+    this.store.dispatch(Actions.centerWindowsInView());
+  }
+
   previousTrack() {
     this.store.dispatch(Actions.previous());
   }

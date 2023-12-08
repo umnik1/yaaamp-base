@@ -33,6 +33,7 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
   const [searchResult, setsearchResult] = useState([]);
   const [lendings, setLendings] = useState([]);
   const [data, setData] = useState<any>([]);
+  const [userSettings, setUserSettings] = useState<any>([]);
 
   const handleChange = (event: { target: { value: SetStateAction<string>; }; }) => {
     ipcRenderer.invoke("search", {searchText: event.target.value}).then((rs: any) => {
@@ -60,6 +61,9 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
       })
       ipcRenderer.invoke('lendings').then((rs: any) => {
         setLendings(rs);
+      })
+      ipcRenderer.invoke('getSettings').then((rs: any) => {
+        setUserSettings(JSON.parse(rs));
       })
     }
 
@@ -92,13 +96,15 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
         ipcRenderer.invoke("setMyloved").then(() => {})
       }} label="Любимые треки" />
       <Hr />
-      {lendings.map((result: any) => {
+      <Parent label="Начальные плейлисты">
+        {lendings.map((result: any) => {
           return (
             <Node onClick={async () => {
               ipcRenderer.invoke("setPlaylist", {uid: result.data.data.uid, kind: result.data.data.kind }).then(() => {})
             }} label={result.data.data.title} />
           );
         })}
+      </Parent>
       <Hr />
       <Parent label="Поиск...">
         <li className="input" id="notClose"><input className="searchField" type="text" id="notClose" placeholder="Введите текст..." onChange={handleChange} /></li>
@@ -176,6 +182,38 @@ const MainContextMenu = memo(({ filePickers }: Props) => {
       <Hr />
       <SkinsContextMenu />
       <Hr />
+      <Parent label="Увеличение">
+        <Node onClick={async () => {
+          ipcRenderer.invoke("setRatio", {value: 1}).then(() => {})
+        }}
+          label="x1"
+          checked={ userSettings.zoom === 1 }
+         />
+        <Node onClick={async () => {
+          ipcRenderer.invoke("setRatio", {value: 1.2}).then(() => {})
+        }}
+          label="x1.2"
+          checked={ userSettings.zoom === 1.2 }
+        />
+        <Node onClick={async () => {
+          ipcRenderer.invoke("setRatio", {value: 1.4}).then(() => {})
+        }}
+          label="x1.4"
+          checked={ userSettings.zoom === 1.4 }
+        />
+        <Node onClick={async () => {
+          ipcRenderer.invoke("setRatio", {value: 1.6}).then(() => {})
+        }}
+          label="x1.6"
+          checked={ userSettings.zoom === 1.6 }
+        />
+        <Node onClick={async () => {
+          ipcRenderer.invoke("setRatio", {value: 1.8}).then(() => {})
+        }}
+          label="x1.8"
+          checked={ userSettings.zoom === 1.8 }
+        />
+      </Parent>
       <Parent label="Options">
         <OptionsContextMenu />
       </Parent>

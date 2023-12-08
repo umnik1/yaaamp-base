@@ -195,6 +195,11 @@ export default class Webamp {
   public stop(): void;
 
   /**
+   * Center windows in view
+   */
+  public centerWindowsInView(): void;
+
+  /**
    * Webamp will wait until it has fetched the skin and fully parsed it and then render itself.
    *
    * Webamp is rendered into a new DOM node at the end of the <body> tag with the id `#webamp`.

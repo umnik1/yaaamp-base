@@ -4,6 +4,7 @@ import * as Actions from "../actionCreators";
 import * as Selectors from "../selectors";
 import { TIME_MODE } from "../constants";
 import { useActionCreator, useTypedSelector } from "../hooks";
+const { ipcRenderer } = window.require('electron');
 
 const OptionsContextMenu = () => {
   const toggleTimeMode = useActionCreator(Actions.toggleTimeMode);
@@ -17,6 +18,23 @@ const OptionsContextMenu = () => {
   const shuffle = useTypedSelector(Selectors.getShuffle);
   return (
     <>
+      <Node
+        label="Разблокировать окно"
+        onClick={
+          async () => {
+            ipcRenderer.invoke("movingWindowStarted").then(() => {})
+          }
+         }
+      />
+      <Node
+        label="Заблокировать окно"
+        onClick={
+          async () => {
+            ipcRenderer.invoke("movingWindowEnded").then(() => {})
+          }
+         }
+      />
+      <Hr />
       <Node
         label="Time elapsed"
         hotkey="(Ctrl+T toggles)"

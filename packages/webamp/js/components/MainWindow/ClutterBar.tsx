@@ -8,6 +8,8 @@ import ContextMenuTarget from "../ContextMenuTarget";
 import { useActionCreator, useTypedSelector } from "../../hooks";
 import * as Selectors from "../../selectors";
 
+const { ipcRenderer } = window.require('electron');
+
 function setFocusDouble(): Action {
   return Actions.setFocus("double");
 }
@@ -28,8 +30,18 @@ const ClutterBar = memo(() => {
       <ContextMenuTarget bottom renderMenu={() => <OptionsContextMenu />}>
         <div id="button-o" />
       </ContextMenuTarget>
-      <div id="button-a" />
-      <div id="button-i" />
+      <div id="button-a"
+        title={"Лайк"}
+        onMouseUp={async () => {
+          ipcRenderer.invoke("setLike").then(() => {})
+        }}
+      />
+      <div id="button-i"
+        title={"Моя волна"}
+        onMouseUp={async () => {
+          ipcRenderer.invoke("setMywave").then(() => {})
+        }}
+        />
       <div
         title={"Toggle Doublesize Mode"}
         id="button-d"
