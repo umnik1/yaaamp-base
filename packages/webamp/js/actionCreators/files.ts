@@ -211,7 +211,7 @@ export function openEqfFileDialog(): Thunk {
 }
 
 export function openMediaFileDialog(): Thunk {
-  return _openFileDialog(null, "MEDIA");
+  return _openFileDialog(".mp3", "MEDIA");
 }
 
 export function openSkinFileDialog() {
@@ -400,6 +400,14 @@ export function setEqFromFileReference(fileReference: File): Thunk {
   };
 }
 
+export function setEqFromClient(data: string): Thunk {
+  return async (dispatch) => {
+    const eqf = JSON.parse(data);
+    const preset: EqfPreset = eqf.presets[0];
+    dispatch(setEqFromObject(preset));
+  };
+}
+
 export function setEqFromObject(preset: EqfPreset): Thunk {
   return (dispatch) => {
     dispatch(setPreamp(Utils.normalizeEqBand(preset.preamp)));
@@ -414,10 +422,13 @@ export function downloadPreset(): Thunk {
   return (dispatch, getState) => {
     const state = getState();
     const data = getEqfData(state);
+    console.log(data);
     const arrayBuffer = creator(data);
-    const base64 = Utils.base64FromArrayBuffer(arrayBuffer);
-    const dataURI = `data:application/zip;base64,${base64}`;
-    Utils.downloadURI(dataURI, "entry.eqf");
+    // const base64 = Utils.base64FromArrayBuffer(arrayBuffer);
+    // const dataURI = `data:application/zip;base64,${base64}`;
+    ipcRenderer.invoke("setEQ", { link: JSON.stringify(data) }).then(() => {})
+
+    // Utils.downloadURI(dataURI, "entry.eqf");
   };
 }
 

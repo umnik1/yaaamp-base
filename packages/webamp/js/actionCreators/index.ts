@@ -80,6 +80,7 @@ export {
   loadFilesFromReferences,
   setSkinFromUrl,
   setSkinFromClient,
+  setEqFromClient,
   openEqfFileDialog,
   openMediaFileDialog,
   openSkinFileDialog,
